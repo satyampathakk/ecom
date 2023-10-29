@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{%load static%}
+{%block content%}
+    <h1>Your E-Commerce Store</h1>
+    {% for cart in carts %}
+    <div class="product">
+        <img src="{{ cart.item.image.url }}" alt="Product 1">
+        <p>{{ cart.item.title }}</p>
+        <p>Rs{{ cart.item.sell_price }}</p>
+        <form action="quantity" method="get">
+            {% csrf_token %} <!-- Include the CSRF token -->
+            <input type="number" value="{{ cart.quantity }}" name="qty">
+            <input type="hidden" name="id" value="{{ cart.item.id }}">
+            <button type="submit" name="update">Update Quantity</button>
+        </form>
+       
+        <form action="remove" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ cart.item.id }}">
+            <button  type='submit'>remove item</button>
+        </form>
+    </div>
+    {% endfor %}
+    <div class="cart">
+        <h2>Shopping Cart</h2>
+        <ul id="cart-items">
+        </ul>
+        <p>Total: <span id="cart-total">{{total}}</span></p>
+    </div>
+<form action='checkout' method='get'>
+    {%for cus in cust%}
+    <div>
+        
+    Name : {{cus.name}}
+    address:{{cus.locality}}
+    mobile:{{cus.mobile}}
+    <label for="cus_id{{cus.id}}">Option </label>
+    <input type="radio" id="cus_id{{cus.id}}" name="cus_id" value={{cus.id}} >
+
+{%endfor%}
+
+<button type='submit'>pay now</button>
+    </form>
+    {%endblock%}
+

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="">
+            <h2>User Profile</h2>
+            <p>Name: {{ first.name }}</p>
+            <p>Mobile: {{ first.mobile }}</p>
+            <!-- Add more user profile details as needed -->
+
+            <h3>Addresses</h3>
+            <ul class="list-group">
+                {% for address in cust %}
+                    <li class="list-group-item">
+                       Address: {{ address.locality }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+</div>{% endblock %}
+{%block content1%}
+            <div class="container">
+                <div>
+                <h1>Add New Address</h1>
+                <fieldset>
+                <form method="post" action="profile">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form><fieldset>
+                </div>
+            </div>
+   
+{%endblock%}
+{%block script%}
+{%endblock%}

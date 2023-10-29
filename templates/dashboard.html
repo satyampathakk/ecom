@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{%load static%}
+{% block content%}
+    <div class="container">
+        {% for item in items %}
+       
+            <div class="product">
+                <img src="{{ item.image.url }}" alt="Product 1">
+                <h2>{{ item.title }}</h2>
+                <form >
+                    <input type="hidden" value="{{ item.id }}" name="id">
+                    <button class="addCart" type="submit">Add to Cart</button>
+                </form><br>
+                <form>
+                    <input type="hidden" value="{{ item.id }}" name="id">
+                    <button class="button" type="submit">Add to wishlist</button>
+                </form><br>
+                <a href="{% url 'details' item.id %}">view more...</a>
+            </div>
+
+        {% endfor %}
+    </div>
+{%endblock%}
+{%block footer %}{%endblock%}
+{%block script%}
+<script>
+let addwish = document.querySelectorAll(".button");
+if (addwish){
+for (let i = 0; i < addwish.length; i++) {
+    addwish[i].addEventListener("click", function (e) {
+        e.preventDefault();
+        let parentElement=addwish[i].parentElement
+        if (parentElement.tagName === 'FORM') {
+
+            // Serialize the form data
+            let formData = new FormData(parentElement);
+            
+            // Create an object from the FormData for logging
+            let serializedData = {};
+            formData.forEach((value, key) => {
+                serializedData[key] = value;
+            });
+            console.log(serializedData);
+            call(serializedData)
+   }   });
+}
+
+
+function call(data){
+id=parseInt(data['id'])
+
+const url = `/addwish?id=${id}`; 
+
+
+fetch(url)
+.then(response => {
+if (!response.ok) {
+  throw new Error(`Network response was not ok: ${response.status}`);
+}
+return response.json();
+})
+.then(data => {
+
+console.log(data);
+})
+.catch(error => {
+console.error('Fetch error:', error);
+});
+
+}
+}
+let addCart = document.querySelectorAll(".addCart");
+if(addCart){
+for (let i = 0; i < addCart.length; i++) {
+addCart[i].addEventListener("click", function (e) {
+    e.preventDefault();
+    let parentElem=addCart[i].parentElement
+    if (parentElem.tagName === 'FORM') {
+
+
+        let formData = new FormData(parentElem);
+        
+        let serialData = {};
+        formData.forEach((value, key) => {
+            serialData[key] = value;
+        });
+        console.log(serialData);
+        calladd(serialData)
+}   });
+
+function calladd(data){
+id=parseInt(data['id'])
+
+    const url = `/addCart?id=${id}`; 
+
+
+fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.status}`);
+    }
+    return response.json(); 
+  })
+  .then(data => {
+
+    console.log(data);
+  })
+  .catch(error => {
+
+    console.error('Fetch error:', error);
+  });
+}
+}
+}
+</script>
+{%endblock%}

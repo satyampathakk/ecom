@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+{%block content%}
+    <h1>Your E-Commerce Store</h1>
+    {% for cart in carts %}
+    <div class="product">
+        <img src="{{ cart.item.image.url }}" alt="Product 1">
+        <p>{{ cart.item.title }}</p>
+        <p>Rs{{ cart.item.sell_price }}</p>
+    </div>
+{%endfor%}
+    
+{%endblock%}

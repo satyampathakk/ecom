@@ -1,0 +1,164 @@
+{%extends 'base.html'%}
+{%block style%}
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.form-toggle {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+button#loginToggle, button#signupToggle {
+    padding: 10px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button#loginToggle {
+    background-color: #007BFF;
+    color: #fff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+button#signupToggle {
+    background-color: #ccc;
+    color: #000;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+button#loginToggle:hover {
+    background-color: #0056b3;
+}
+
+button#signupToggle:hover {
+    background-color: #999;
+}
+
+</style>
+{%endblock%}
+{%block navbar%}{%endblock%}
+{%block content%}
+    <div class="container">
+        <div class="form-box">
+            <div class="form-toggle">
+                <button id="loginToggle">Login</button>
+                <button id="signupToggle">Sign Up</button>
+            </div>
+            <form id="loginForm" method="post" action="submit">
+                {% csrf_token %}
+                <h2>Login</h2>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+            <form id="signupForm" method="post" action="register">
+                {% csrf_token %}
+                <h2>Sign Up</h2>
+                <label for="newUsername">Username:</label>
+                <input type="text" id="newUsername" name="username" required>
+                <label for="newPassword">Password:</label>
+                <input type="password" id="newPassword" name="password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+{%endblock%}
+{%block footer%}{%endblock%}
+{%block script%}
+<script>
+    // Get references to the login and signup forms
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+    
+    // Get references to the login and signup buttons
+    const loginToggle = document.getElementById("loginToggle");
+    const signupToggle = document.getElementById("signupToggle");
+    
+    // Function to toggle between login and signup forms
+    function toggleForm(formToShow, formToHide) {
+        formToShow.style.display = "block";
+        formToHide.style.display = "none";
+    }
+    
+    // Initially, show the login form and hide the signup form
+    loginForm.style.display = "block";
+    signupForm.style.display = "none";
+    
+    // Add click event listeners to the toggle buttons
+    loginToggle.addEventListener("click", () => {
+        toggleForm(loginForm, signupForm);
+    });
+    
+    signupToggle.addEventListener("click", () => {
+        toggleForm(signupForm, loginForm);
+    });
+    </script>
+{%endblock%}    
