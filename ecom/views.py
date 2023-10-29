@@ -62,7 +62,7 @@ def details(request,id):
     context={}
     context['item']=get_object_or_404(Items, id=id)
     return render (request,'productDetails.html',context)
-
+@login_required
 def contact(request):
     if request.method=='POST':
         contact.name=request.POST['name']
@@ -76,7 +76,7 @@ def contact(request):
             return render(request,'contact.html',{'message':e})
     return render(request,'contact.html')
 
-
+@login_required
 def profile(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST)
@@ -99,7 +99,7 @@ def profile(request):
     context['form']=form
     return render(request,"profile.html",context)
 
-
+@login_required
 def addCart(request):
     user = request.user
     cart = Cart()
@@ -120,7 +120,7 @@ def addCart(request):
         context = {'message': message}
     return JsonResponse(context, safe=False)
 
-    
+@login_required
 def showCart(request):
     user=request.user
     carts=Cart.objects.filter(user=user)
@@ -130,7 +130,7 @@ def showCart(request):
     cust=Customer.objects.filter(user=user)
     return render(request,'cart.html',{'carts':carts,'total':total,'cust':cust})
 
-
+@login_required
 def quantity(request):
     if request.method == 'GET':
         user = request.user
@@ -150,7 +150,7 @@ def quantity(request):
             return JsonResponse({"data":"data not found"})
 
     return redirect('showCart')
-
+@login_required
 def remove(request):
     if request.method=='POST':
         user = request.user
@@ -170,7 +170,7 @@ def remove(request):
     
     return redirect('showCart')
 
-
+@login_required
 def checkout(request):
     user = request.user
     cart = Cart.objects.filter(user=user)
@@ -198,6 +198,7 @@ def checkout(request):
 
     return render(request, 'checkout.html', {'total': razorpayamt,'customer':cust_id,'payment':payment})
 
+@login_required
 def payment(request):
     oid = request.POST['razorpay_order_id']
     pid = request.POST['razorpay_payment_id']
@@ -224,12 +225,13 @@ def payment(request):
         return redirect('order')
     
     return redirect('showCart')
-
+@login_required
 def showlist(request):
     user=request.user
     wishlist=Wishlist.objects.filter(user=user)
     context={"carts":wishlist}
     return render(request,'wishlist.html',context)
+@login_required
 def addwish(request):
     user = request.user
 
@@ -249,7 +251,7 @@ def addwish(request):
         return JsonResponse(context, safe=False)
 
     return JsonResponse({'message': 'Invalid request method'}, status=400)
-
+@login_required
 def order(request):
     user=request.user
     carts=Order.objects.filter(user=user)
