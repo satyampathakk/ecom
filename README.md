@@ -11,6 +11,8 @@ To test the website, follow these steps:
 2. Install Django via pip if you haven't already:
    ```
    pip install django
+
+   pip install razorpay
    ```
 
 3. Open your command prompt and navigate to the project folder.
